@@ -74,7 +74,7 @@ const Chat = () => {
 			setChannels(data.channels);
 		});
 	};
-
+ 
 	const handleChannelSelect = (id) => {
 		let channel = channels?.find((c) => {
 			return c.id === id;
