@@ -6,7 +6,7 @@ let io = require("socket.io")(http, {
 	cors: {
 		origin: "*",
 	},
-});
+}); 
 let STATIC_CHANNELS = [
 	{
 		name: "Global chat",

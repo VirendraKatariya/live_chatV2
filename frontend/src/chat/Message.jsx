@@ -2,7 +2,7 @@ import React from "react";
 
 const Message = ({ key, id, senderName, text }) => {
 	return (
-		<div className="message-item">
+		<div key={key} className="message-item">
 			<div>
 				<b>{senderName}</b>
 			</div>

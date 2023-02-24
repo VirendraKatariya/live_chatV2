@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ChannelList from "./ChannelList";
 import MessagesPanel from "./MessagesPanel";
 import socketClient from "socket.io-client";
-const SERVER = "http://127.0.0.1:8080";
+const SERVER = "http://192.168.1.16:8080";
 
 const Chat = () => {
 	const [channels, setChannels] = useState([
@@ -21,7 +21,7 @@ const Chat = () => {
 	]);
 	const [socket, setSocket] = useState(null);
 	const [channel, setChannel] = useState(null);
-	const [chat, setChat] = useState([]);
+	const [_, setCount] = useState(0);
 
 	useEffect(() => {
 		loadChannels();
@@ -48,6 +48,7 @@ const Chat = () => {
 
 		socket.on("message", (message) => {
 			let newChannels = channels;
+			let cnl;
 			newChannels?.forEach((c) => {
 				if (c.id === message.channel_id) {
 					if (!c.messages) {
@@ -60,21 +61,23 @@ const Chat = () => {
 							c["messages"].push(message);
 						}
 					}
-					setChannel(c);
+					cnl = c;
 				}
 			});
+			setChannel(cnl);
 			setChannels(newChannels);
+			setCount((prev) => prev + 1);
 		});
 		setSocket(socket);
 	};
 
 	const loadChannels = async () => {
-		fetch("http://localhost:8080/getChannels").then(async (response) => {
+		fetch("http://192.168.1.16:8080/getChannels").then(async (response) => {
 			let data = await response.json();
 			setChannels(data.channels);
 		});
 	};
- 
+
 	const handleChannelSelect = (id) => {
 		let channel = channels?.find((c) => {
 			return c.id === id;
@@ -85,6 +88,7 @@ const Chat = () => {
 	};
 
 	const handleSendMessage = (channel_id, text) => {
+		console.log(socket);
 		socket.emit("send-message", {
 			channel_id,
 			text,
@@ -92,6 +96,7 @@ const Chat = () => {
 			id: Date.now(),
 		});
 	};
+
 	return (
 		<div className="chat-app">
 			<ChannelList

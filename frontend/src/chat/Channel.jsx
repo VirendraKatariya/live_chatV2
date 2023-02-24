@@ -5,7 +5,7 @@ const Channel = ({ key, id, name, participants, onClick }) => {
 		onClick(id);
 	};
 	return (
-		<div className="channel-item" onClick={click}>
+		<div key={key} className="channel-item" onClick={click}>
 			<div>{name}</div>
 			<span>{participants}</span>
 		</div>
