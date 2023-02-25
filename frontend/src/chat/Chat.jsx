@@ -3,6 +3,7 @@ import ChannelList from "./ChannelList";
 import MessagesPanel from "./MessagesPanel";
 import socketClient from "socket.io-client";
 const SERVER = "http://192.168.1.16:8080";
+import "./chat.scss";
 
 const Chat = () => {
 	const [channels, setChannels] = useState([
